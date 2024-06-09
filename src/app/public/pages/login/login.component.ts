@@ -44,7 +44,7 @@ export class LoginComponent implements OnInit{
         var {token,...user} = res.results;
         localStorage.setItem("token",res.results.token)
         localStorage.setItem("connectedUser",JSON.stringify(user));
-        if(user.roles.includes("ROLE_ADMIN")){
+        if(user.roles.includes("ROLE_ADMIN") || user.roles.includes("ROLE_CONDUCTEUR")){
           this.router.navigateByUrl('/admin/trajet');
         }else{
           this.authService.isAuthentificated=false;

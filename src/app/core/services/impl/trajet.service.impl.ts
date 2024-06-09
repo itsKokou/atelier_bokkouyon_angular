@@ -15,8 +15,8 @@ export class TrajetServiceImpl implements TrajetService {
 
   constructor(private http: HttpClient) {}
 
-  findAll(page: number): Observable<RestResponse<TrajetList[]>> {
-    return this.http.get<RestResponse<TrajetList[]>>(`${this.ApiUrl}?page= ${page}`); 
+  findAll(page: number, conducteurId:number=0, etat:string=''): Observable<RestResponse<TrajetList[]>> {
+    return this.http.get<RestResponse<TrajetList[]>>(`${this.ApiUrl}?page=${page}&conducteurId=${conducteurId}&etat=${etat}`); 
   }
 
   create(dataCreate: TrajetCreate): Observable<RestResponse<TrajetCreate>> {

@@ -10,7 +10,7 @@
         {{echec}}
     </span>
    <div class="px-4 py-3 mt-4 0">
-        <div  class="inline-flex mt-1 w-full" >
+        <div *ngIf="connectedUser.roles.includes('ROLE_ADMIN')"  class="inline-flex mt-1 w-full" >
             <label for="conduct" style="width:150px;" class="mb-2 w-10 text-gray-900 dark:text-gray-400">
                 Conducteur
             </label>

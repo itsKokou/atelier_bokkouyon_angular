@@ -6,6 +6,7 @@ import { RestResponse } from '../../../../core/models/rest.response';
 import { TrajetServiceImpl } from '../../../../core/services/impl/trajet.service.impl';
 import { Router } from '@angular/router';
 import { ConducteurServiceImpl } from '../../../../core/services/impl/conducteur.service.impl';
+import { User } from '../../../../core/models/authentification';
 
 @Component({
   selector: 'app-form',
@@ -19,13 +20,14 @@ export class FormComponent implements OnInit {
   form = this.fb.group({
     id: new FormControl(),
     date: [0, [Validators.required,this.validateDate]],
-    conducteur:[0,[Validators.required,Validators.min(1)]],
+    conducteur:[0],
     pointDepart: ["",[Validators.required,Validators.minLength(4)]],
     pointArrivee: ["",[Validators.required,Validators.minLength(4)]],
     nbrPassagers:[0,[Validators.required, Validators.min(0)]],
     nbrPlace:[0,[Validators.required, Validators.min(1)]],
     prix:[0.0,[Validators.required, Validators.min(50)]],
   });
+
 
   get id() {
     return this.form.controls['id'] as FormControl;
@@ -57,6 +59,7 @@ export class FormComponent implements OnInit {
   echec: String | null = null;
   success: String | null = null;
   conducteurList?:RestResponse<ConducteurList[]> ;
+  connectedUser:User=JSON.parse(localStorage.getItem("connectedUser")!);
 
   constructor(
     private fb: FormBuilder,
@@ -100,5 +103,10 @@ export class FormComponent implements OnInit {
  
   ngOnInit(): void {
     this.conducteurService.findAllList().subscribe((data)=>this.conducteurList=data);
+    if (this.connectedUser.roles.includes('ROLE_CONDUCTEUR')) {
+      this.conducteur.setValue(this.connectedUser.userId);
+    }else{
+      this.conducteur.addValidators(Validators.min(1))
+    }
   }
 }

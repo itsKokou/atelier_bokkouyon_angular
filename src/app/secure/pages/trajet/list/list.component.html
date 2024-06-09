@@ -1,9 +1,33 @@
 
+
 <div class="flex justify-end" >
   <a routerLink="/admin/trajet-form" class="px-4 py-2 text-base font-medium leading-5 text-cyan-500 transition-colors duration-150 bg-transparent border-2 border-cyan-500 rounded-lg hover:text-white hover:bg-cyan-500">
     Nouveau
   </a>
 </div>
+  <form  style="width: 70%;" class="w-auto rounded-lg px-4 py-3 mt-4 text-gray-500 border bg-white dark:border-gray-700 dark:text-gray-400 dark:bg-gray-900">
+      <div  class="inline-flex mt-1 mb-2 w-full">
+        <div *ngIf="connectedUser.roles.includes('ROLE_ADMIN')" style="width: 38%; margin-right:80px;" class="text-base px-4 py-3 border border-gray-300 rounded-md dark:bg-zinc-600">
+            <label for="select-classe-niveau" class="block mb-2 font-medium text-gray-900 dark:text-white">Conducteur</label>
+            <select #ConducteurSelect (change)="filterByConducteur(+ConducteurSelect.value)" id="select-classe-niveau" style="width:80%;" class="bg-gray-50 dark:bg-white border border-gray-300 text-gray-900 rounded focus:ring-blue-500 focus:border-blue-500 block p-2.5  dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-700 dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                <option data-path="" value='0' >All</option>
+                @for (item of conducteurList?.results; track $index) {
+                  <option data-path="" value="{{item.id}}" [selected]="conducteurSelected==item.id">{{item.nomComplet}}</option>
+                }  
+            </select>
+        </div>
+        <div style="width: 38%;" class="text-base px-4 py-3 border border-gray-300 rounded-md dark:bg-zinc-600">
+          <label for="select-classe-filiere" class="block mb-2 font-medium text-gray-900 dark:text-white">Etat</label>
+          <select #etatSelect (change)="filterByEtat(etatSelect.value)" id="select-classe-filiere" style="width:80%;" class="bg-gray-50 dark:bg-white border border-gray-300 text-gray-900 rounded focus:ring-blue-500 focus:border-blue-500 block w-96 p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-700 dark:focus:ring-blue-500 dark:focus:border-blue-500">
+            <option data-path="" value='' >All</option>
+            <option data-path="" value="Restant" [selected]="etatSelected=='Restant'">Restant</option>
+            <option data-path="" value="Plein" [selected]="etatSelected=='Plein'">Plein</option>
+           
+          </select>
+        </div>
+        
+      </div>
+    </form>
 
   <h4 class="mb-4 mt-4 text-left text-lg font-semibold text-gray-600 dark:text-white">
     Liste des Cours des trajets
@@ -38,11 +62,11 @@
                 <td class="px-4 py-3 text-sm"> {{item.nbrPassagers}} </td>
                 <td class="px-4 py-3 text-sm"> {{item.nbrPlace}} </td>
                 <td class="px-6 py-4 text-sm" >
-                    <span *ngIf="item.etat=='Prevu'" class="inline-flex items-center gap-1 rounded-full px-2 py-1 text-xs font-semibold bg-green-50 text-green-600">
-                      <span class="h-1.5 w-1.5 rounded-full bg-green-600"></span>Prevu
+                    <span *ngIf="item.etat=='Restant'" class="inline-flex items-center gap-1 rounded-full px-2 py-1 text-xs font-semibold bg-green-50 text-green-600">
+                      <span class="h-1.5 w-1.5 rounded-full bg-green-600"></span>Restant
                     </span>
-                    <span *ngIf="item.etat=='Termine'" class="inline-flex items-center gap-1 rounded-full px-2 py-1 text-xs font-semibold bg-orange-50 text-orange-600">
-                      <span class="h-1.5 w-1.5 rounded-full bg-orange-600"></span>Terminé
+                    <span *ngIf="item.etat=='Plein'" class="inline-flex items-center gap-1 rounded-full px-2 py-1 text-xs font-semibold bg-orange-50 text-orange-600">
+                      <span class="h-1.5 w-1.5 rounded-full bg-orange-600"></span>Plein
                     </span>
                 </td>
             </tr>
