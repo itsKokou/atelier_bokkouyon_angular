@@ -1,0 +1,117 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="w-full rounded-lg px-4 py-3 mt-4 text-gray-500 border bg-white dark:border-gray-700 dark:text-gray-400 dark:bg-gray-800">
+    
+    <h4 class="mb-4 mt-1 text-lg font-semibold text-gray-600 dark:text-gray-300">
+        Enregistrement de Trajet
+    </h4>
+    <span style="color: #0ef700" class="transition-opacity duration-300 ease-in-out" x-data="{ show: true }" x-show="show" x-init="setTimeout(() => { show = false }, 3000)">
+        {{success}}
+    </span>
+    <span style="color: red" class="transition-opacity duration-300 ease-in-out" x-data="{ show: true }" x-show="show" x-init="setTimeout(() => { show = false }, 3000)">
+        {{echec}}
+    </span>
+   <div class="px-4 py-3 mt-4 0">
+        <div  class="inline-flex mt-1 w-full" >
+            <label for="conduct" style="width:150px;" class="mb-2 w-10 text-gray-900 dark:text-gray-400">
+                Conducteur
+            </label>
+            <div style="padding-left:10%" class="w-full">
+                <select formControlName="conducteur"  id="conduct" class="w-full px-4 h-10 bg-gray-50 dark:bg-gray-700 border border-gray-300 text-gray-900 rounded focus:ring-blue-500 focus:border-blue-500 block dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
+                    @for (item of conducteurList?.results; track $index) {
+                        <option [value]="item.id"> {{item.nomComplet}} </option>
+                    }
+                </select>
+            </div>
+        </div>
+        @if (form.controls['conducteur'].errors && (form.controls['conducteur'].dirty || form.controls['conducteur'].touched)) {
+            <small class="ml-10" style="padding-left:10%; margin-left:135px; color: red">Le conducteur est obligatoire </small>
+        } 
+        <div  class="inline-flex mt-5 w-full text-gray-900 dark:text-gray-400" >
+            <label for="date" class="mb-2  w-10" style="width:150px;">
+                Date
+            </label>
+            <div style="padding-left:10%" class="w-full" >
+                <input formControlName="date" type="date" id="date" class="w-full px-4 h-10 bg-gray-50 dark:bg-gray-700 border border-gray-300 text-gray-900 rounded focus:ring-blue-500 focus:border-blue-500 block dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
+            </div>
+        </div>
+        @if (form.controls['date'].errors && (form.controls['date'].dirty || form.controls['date'].touched)) {
+            @if (date.errors!['required']){
+                <small class="ml-10" style="padding-left:10%;  margin-left:135px; color: red">La date est obligatoire</small>
+            }
+           
+            @if (date.errors!['dateIsPast']){
+                <small class="ml-10" style="padding-left:10%;  margin-left:135px; color: red">Un trajet ne peut être fait dans le passé</small>
+            }
+        }
+
+        <div  class="inline-flex mt-5 w-full text-gray-900 dark:text-gray-400" >
+            <label for="depart" class="mb-2  w-10" style="width:150px;">
+                Départ
+            </label>
+            <div style="padding-left:10%" class="w-full" >
+                <input formControlName="pointDepart" type="text" id="depart" class="w-full px-4 h-10 bg-gray-50 dark:bg-gray-700 border border-gray-300 text-gray-900 rounded focus:ring-blue-500 focus:border-blue-500 block dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
+            </div>
+        </div>
+        @if (form.controls['pointDepart'].errors && (form.controls['pointDepart'].dirty || form.controls['pointDepart'].touched)) {
+            <small class="ml-10" style="padding-left:10%; margin-left:135px; color: red">Le point de départ est obligatoire</small>
+        }
+        <div  class="inline-flex mt-5 w-full text-gray-900 dark:text-gray-400" >
+            <label for="arriv" class="mb-2  w-10" style="width:150px;">
+                Arrivée
+            </label>
+            <div style="padding-left:10%" class="w-full" >
+                <input formControlName="pointArrivee" type="text" id="arriv" class="w-full px-4 h-10 bg-gray-50 dark:bg-gray-700 border border-gray-300 text-gray-900 rounded focus:ring-blue-500 focus:border-blue-500 block dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
+            </div>
+        </div>
+        @if (form.controls['pointArrivee'].errors && (form.controls['pointArrivee'].dirty || form.controls['pointArrivee'].touched)) {
+            <small class="ml-10" style="padding-left:10%; margin-left:135px; color: red">Le point d'arrivée est obligatoire</small>
+        }
+        <div  class="inline-flex mt-5 w-full text-gray-900 dark:text-gray-400" >
+            <label for="pass" class="mb-2  w-10" style="width:150px;">
+                Passager(s)
+            </label>
+            <div style="padding-left:10%" class="w-full" >
+                <input formControlName="nbrPassagers" type="number" id="pass" class="w-full px-4 h-10 bg-gray-50 dark:bg-gray-700 border border-gray-300 text-gray-900 rounded focus:ring-blue-500 focus:border-blue-500 block dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
+            </div>
+        </div>
+        @if (form.controls['nbrPassagers'].errors && (form.controls['nbrPassagers'].dirty || form.controls['nbrPassagers'].touched)) {
+            <small class="ml-10" style="padding-left:10%; margin-left:135px; color: red">Le nombre de passagers est requis</small>
+        }
+        <div  class="inline-flex mt-5 w-full text-gray-900 dark:text-gray-400" >
+            <label for="pass" class="mb-2  w-10" style="width:150px;">
+                Place(s) libre(s)
+            </label>
+            <div style="padding-left:10%" class="w-full" >
+                <input formControlName="nbrPlace" type="number" id="pass" class="w-full px-4 h-10 bg-gray-50 dark:bg-gray-700 border border-gray-300 text-gray-900 rounded focus:ring-blue-500 focus:border-blue-500 block dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
+            </div>
+        </div>
+        @if (form.controls['nbrPlace'].errors && (form.controls['nbrPlace'].dirty || form.controls['nbrPlace'].touched)) {
+            <small class="ml-10" style="padding-left:10%; margin-left:135px; color: red">Le nombre de place disponible doit être supérieur à 1</small>
+        }
+        <div  class="inline-flex mt-5 w-full text-gray-900 dark:text-gray-400" >
+            <label for="prix" class="mb-2  w-10" style="width:150px;">
+                Prix (/km)
+            </label>
+            <div style="padding-left:10%" class="w-full" >
+                <input formControlName="prix" type="number" id="prix" class="w-full px-4 h-10 bg-gray-50 dark:bg-gray-700 border border-gray-300 text-gray-900 rounded focus:ring-blue-500 focus:border-blue-500 block dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
+            </div>
+        </div>
+        @if (form.controls['prix'].errors && (form.controls['prix'].dirty || form.controls['prix'].touched)) {
+            <small class="ml-10" style="padding-left:10%; margin-left:135px; color: red">Le prix au kilomètre doit être supérieur à 50</small>
+        }
+
+        
+        <div class="inline-flex w-full mt-4">
+            <label class="mb-2 w-10"> </label>
+            <div style="padding-left: 10%" class="w-full flex justify-end">
+                <button type="submit" [disabled]="form.invalid" class="px-4 cursor-pointer py-2 text-sm font-medium leading-5 text-blue-600 transition-colors duration-150 bg-transparent border border-blue-600 rounded-lg hover:text-white hover:bg-blue-600 focus:outline-none focus:shadow-outline-red">
+                    Enregistrer
+                </button>
+            </div>
+        </div>
+    </div>
+
+</form>
+
+
+
+

@@ -1,0 +1,58 @@
+
+<div class="flex justify-end" >
+  <a routerLink="/admin/trajet-form" class="px-4 py-2 text-base font-medium leading-5 text-cyan-500 transition-colors duration-150 bg-transparent border-2 border-cyan-500 rounded-lg hover:text-white hover:bg-cyan-500">
+    Nouveau
+  </a>
+</div>
+
+  <h4 class="mb-4 mt-4 text-left text-lg font-semibold text-gray-600 dark:text-white">
+    Liste des Cours des trajets
+  </h4>
+
+  <div class="w-full overflow-hidden rounded-lg shadow-xs">
+    <div class="w-full overflow-x-auto">
+      <table class="w-full whitespace-no-wrap">
+        <thead>
+          <tr
+            class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-900"
+            style="color:#4389f9"
+          >
+            <th class="px-4 py-3">N°</th>
+            <th class="px-4 py-3">Enregistré le</th>
+            <th class="px-4 py-3">Conducteur</th>
+            <th class="px-4 py-3">Depart</th>
+            <th class="px-4 py-3">Arrivée</th>
+            <th class="px-4 py-3">Passager(s)</th>
+            <th class="px-4 py-3">Place libre</th>
+            <th class="px-4 py-3">Etat</th>
+          </tr>
+        </thead>
+        <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-900">
+          @for (item of response?.results; track $index) {
+            <tr class="text-gray-700 dark:text-gray-400">
+                <td class="px-4 py-3 text-sm"> {{item.id}} </td>
+                <td class="px-4 py-3 text-sm"> {{item.date}} </td>
+                <td class="px-4 py-3 text-sm"> {{item.conducteur}} </td>
+                <td class="px-4 py-3 text-sm"> {{item.pointDepart}} </td>
+                <td class="px-4 py-3 text-sm"> {{item.pointArrivee}} </td>
+                <td class="px-4 py-3 text-sm"> {{item.nbrPassagers}} </td>
+                <td class="px-4 py-3 text-sm"> {{item.nbrPlace}} </td>
+                <td class="px-6 py-4 text-sm" >
+                    <span *ngIf="item.etat=='Prevu'" class="inline-flex items-center gap-1 rounded-full px-2 py-1 text-xs font-semibold bg-green-50 text-green-600">
+                      <span class="h-1.5 w-1.5 rounded-full bg-green-600"></span>Prevu
+                    </span>
+                    <span *ngIf="item.etat=='Termine'" class="inline-flex items-center gap-1 rounded-full px-2 py-1 text-xs font-semibold bg-orange-50 text-orange-600">
+                      <span class="h-1.5 w-1.5 rounded-full bg-orange-600"></span>Terminé
+                    </span>
+                </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div> 
+  <app-pagination [data]="dataPagination" (onGetPageNumber)="paginate($event)"></app-pagination> 
+
+
+
+
